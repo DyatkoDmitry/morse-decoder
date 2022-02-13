@@ -38,9 +38,44 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+
+    let binaryArray = [];
+    let binaryArrayWithoutZeros = [];
+    let outString = []; 
+
+    for(let i = 0; i < expr.length; i += 10){  
+        binaryArray.push(expr.slice(i, i + 10));
+    }
+
+    binaryArray.forEach((value) => {
+        binaryArrayWithoutZeros.push(value.replace(/00/g,''));
+    })
+
+    binaryArrayWithoutZeros.forEach((value) => {
+        
+        if(value === '**********') {
+            outString.push(' ');
+            return;
+        }
+
+        let morseStr = '';
+        let morseLetter;
+
+        for(let i = 0; i < value.length; i += 2){
+            morseLetter = value.slice(i, i + 2);
+            if(morseLetter === '10'){
+                morseStr += '.';
+            }else if(morseLetter === '11'){
+                morseStr += '-';
+            }
+        }
+        outString.push(MORSE_TABLE[morseStr]);
+    })
+    return outString.join('');
 }
 
 module.exports = {
     decode
 }
+
+
